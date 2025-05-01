@@ -6,9 +6,11 @@ import java.util.Map;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,6 +84,43 @@ public class FormularioController {
         } catch (Exception e) {
             return ResponseEntity.status(Response.SC_INTERNAL_SERVER_ERROR)
                     .body("Error creating formulario: " + e.getMessage());
+        }
+    }
+
+    // eliminar formulario
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> eliminarFormulario(@PathVariable Long id) {
+        try {
+            int resultado = formularioService.deleteFormulario(id);
+            if (resultado == 1) {
+                return ResponseEntity.ok(Map.of("mensaje", "Formulario eliminado con éxito."));
+            } else {
+                return ResponseEntity.status(404).body("Formulario no encontrado.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(Response.SC_INTERNAL_SERVER_ERROR)
+                    .body("Error deleting formulario: " + e.getMessage());
+        }
+    }
+
+    // actualizar formulario
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<?> actualizarFormulario(@PathVariable Long id,
+            @Valid @RequestBody FormularioMergeDTO formularioMergeDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map(error -> error.getDefaultMessage())
+                    .toList();
+            return ResponseEntity.badRequest().body(Map.of("errors", errors));
+        }
+        try {
+            return ResponseEntity.ok(formularioService.updateFormulario(id, formularioMergeDTO));
+        } catch (Exception e) {
+            return ResponseEntity.status(Response.SC_INTERNAL_SERVER_ERROR)
+                    .body("Error updating formulario: " + e.getMessage());
         }
     }
 }

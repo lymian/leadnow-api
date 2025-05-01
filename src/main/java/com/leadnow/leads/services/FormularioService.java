@@ -93,6 +93,19 @@ public class FormularioService {
 
     }
 
+    // actualizar formulario
+    public FormularioDTO updateFormulario(Long id, FormularioMergeDTO formularioMergeDTO) {
+        Formulario formulario = formularioRepository.findById(id).orElse(null);
+        if (formulario != null) {
+            formulario.setNombre(formularioMergeDTO.getNombre());
+            formulario.setDescripcion(formularioMergeDTO.getDescripcion());
+            Formulario updatedFormulario = formularioRepository.save(formulario);
+            return convertirADto(updatedFormulario);
+        } else {
+            return null;
+        }
+    }
+
     // convertir Formulario a FormularioDTO
     private FormularioDTO convertirADto(Formulario formulario) {
         FormularioDTO formularioDTO = new FormularioDTO();

@@ -50,7 +50,7 @@ public class LeadController {
     public ResponseEntity<?> eliminarLead(@PathVariable Long id) {
         int resultado = leadService.deleteLead(id);
         if (resultado == 1) {
-            return ResponseEntity.ok("Lead eliminado con éxito.");
+            return ResponseEntity.ok(Map.of("mensaje", "Lead eliminado con éxito."));
         } else {
             return ResponseEntity.status(404).body("Lead no encontrado.");
         }
