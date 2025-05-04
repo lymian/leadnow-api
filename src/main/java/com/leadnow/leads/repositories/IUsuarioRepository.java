@@ -1,5 +1,6 @@
 package com.leadnow.leads.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByEmail(String email);
 
     Optional<Usuario> findByUsername(String username);
+
+    // listar usuarios por rol
+    List<Usuario> findByRolId(Long rolId);
 }

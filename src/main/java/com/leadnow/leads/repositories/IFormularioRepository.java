@@ -12,4 +12,7 @@ public interface IFormularioRepository extends JpaRepository<Formulario, Long> {
 
     // listar formularios por usuario
     List<Formulario> findByUsuarioId(Long usuarioId);
+
+    // Contar formularios por usuario
+    Long countByUsuarioId(Long usuarioId);
 }

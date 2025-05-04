@@ -83,6 +83,14 @@ public class FormularioService {
         }
     }
 
+    // Listar formularios por id de usuario
+    public List<FormularioDTO> getFormulariosByUsuarioId(Long usuarioId) {
+        List<Formulario> formularios = formularioRepository.findByUsuarioId(usuarioId);
+        return formularios.stream()
+                .map(this::convertirADto)
+                .toList();
+    }
+
     // convertir FormularioMergeDTO a entidad Formulario
     private Formulario convertirADto(FormularioMergeDTO formularioMergeDTO) {
         Formulario formulario = new Formulario();
@@ -104,6 +112,11 @@ public class FormularioService {
         } else {
             return null;
         }
+    }
+
+    // contar formularios por usuario
+    public Long countFormulariosByUsuarioId(Long usuarioId) {
+        return formularioRepository.countByUsuarioId(usuarioId);
     }
 
     // convertir Formulario a FormularioDTO

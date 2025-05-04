@@ -40,5 +40,4 @@ public class Formulario {
     @JsonManagedReference
     private List<Lead> leads;
 
-    // Getters y setters
 }

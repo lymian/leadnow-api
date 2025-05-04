@@ -123,4 +123,28 @@ public class FormularioController {
                     .body("Error updating formulario: " + e.getMessage());
         }
     }
+
+    // contar formularios por id usuario
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/contar/{idUsuario}")
+    public ResponseEntity<?> contarFormulariosPorUsuario(@PathVariable Long idUsuario) {
+        try {
+            return ResponseEntity.ok(formularioService.countFormulariosByUsuarioId(idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.status(Response.SC_INTERNAL_SERVER_ERROR)
+                    .body("Error counting formularios: " + e.getMessage());
+        }
+    }
+
+    // obtener formularios por id usuario
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/obtener/usuario/{idUsuario}")
+    public ResponseEntity<?> getFormulariosByUsuarioId(@PathVariable Long idUsuario) {
+        try {
+            return ResponseEntity.ok(formularioService.getFormulariosByUsuarioId(idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.status(Response.SC_INTERNAL_SERVER_ERROR)
+                    .body("Error retrieving formularios: " + e.getMessage());
+        }
+    }
 }
