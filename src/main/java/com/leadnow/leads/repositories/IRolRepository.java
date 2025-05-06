@@ -7,4 +7,5 @@ import com.leadnow.leads.models.Rol;
 
 @Repository
 public interface IRolRepository extends JpaRepository<Rol, Long> {
+    Rol findByNombre(String nombre);
 }
